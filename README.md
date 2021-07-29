@@ -2,13 +2,12 @@
 
 Kernel flows is an algorithm developed by Owhadi and Yoo (2018) for optimising the parameters of the kernel for kernel ridge regression. The following description is adapted from the paper by Hamzi and Owhadi (2021), who successfully applied the method to the logistic map, the Henon map and the Lorenz attractor:
 
-Suppose we have an <img src="https://render.githubusercontent.com/render/math?math=\mathrm{R}^d"> $\mathrm{R}^d$ dimensional time series $x_1, ..., x_k,...$ taken from a deterministic dynamical system, and that we observe the process at regular intervals up to some time $n$ . How can we forecast the time series at time $n+1$; and more generally, up to some future time $t_{\tau+n}$, where the time lag $\tau$ may be unknown? Assume that there exists a surrogate dynamical system with solution 
+Suppose we have an <img src="https://render.githubusercontent.com/render/math?math=\mathrm{R}^d"> dimensional time series <img src="https://render.githubusercontent.com/render/math?math=x_1, ..., x_k,..."> taken from a deterministic dynamical system, and that we observe the process at regular intervals up to some time <img src="https://render.githubusercontent.com/render/math?math=t_n"> . How can we forecast the time series at time <img src="https://render.githubusercontent.com/render/math?math=t_{n+1}">; and more generally, up to some future time <img src="https://render.githubusercontent.com/render/math?math=t_{\tau+n}">, where the time lag <img src="https://render.githubusercontent.com/render/math?math=\tau"> may be unknown? Assume that there exists a surrogate dynamical system with solution 
 
-\begin{equation}
-    z_{k+1}=f^\dagger (z_k, ... , z_{k-\tau^\dagger+1})
-\end{equation}
+<img src="https://render.githubusercontent.com/render/math?math=z_{k+1}=f^\dagger (z_k, ... , z_{k-\tau^\dagger+1})">
 
-, where no assumptions have been made about $f^\dagger$ and $\tau^\dagger$. Let the input of  $f^\dagger$ be $d$ . Next, fit a regular kernel regression model (see the above section, with $\lambda=0$) on $X=(X_1,...,X_N)$ and $Y=(Y_1,...,Y_N)$ where $N=n-\tau$:
+, where no assumptions have been made about <img src="https://render.githubusercontent.com/render/math?math=f^\dagger ">
+ and <img src="https://render.githubusercontent.com/render/math?math=\tau^\dagger ">. Let the input of <img src="https://render.githubusercontent.com/render/math?math=f^\dagger "> be <img src="https://render.githubusercontent.com/render/math?math=\mathrm{R}^d "> . Next, fit a regular kernel regression model on $X=(X_1,...,X_N)$ and $Y=(Y_1,...,Y_N)$ where $N=n-\tau$:
 
 \begin{equation}
     f(x)= K(x,X)(K(X,X))^{-1}Y
