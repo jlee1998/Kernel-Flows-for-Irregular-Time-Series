@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import math
-import kernel_zoo
+from src import kernel_zoo
 
 def sample_selection(data, size):
     indices = np.arange(data.shape[0])

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "kernel-flows-for-irregular-time-series"
+name = "kernel_flows"
 version = "0.1.0"
 description = ""
 authors = ["Edward De Brouwer <edward.debrouwer@gmail.com>"]

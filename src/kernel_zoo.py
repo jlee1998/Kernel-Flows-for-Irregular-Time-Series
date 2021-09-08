@@ -24,14 +24,7 @@ def norm_matrix(matrix_1, matrix_2):
     
     return norm_diff
 
-# The pi or selection matrix
-def pi_matrix(sample_indices, dimension):
-    pi = torch.zeros(dimension)
-    
-    for i in range(dimension[0]):
-        pi[i][sample_indices[i]] = 1
-    
-    return pi
+
 
 # Returns the pairwise inner product
 def inner_matrix(matrix_1, matrix_2):
