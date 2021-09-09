@@ -2,6 +2,7 @@ import numpy as np
 import torch
 import math
 from src import kernel_zoo
+import tqdm
 
 def sample_selection(data, size):
     indices = np.arange(data.shape[0])
@@ -117,4 +118,22 @@ class KernelFlows(torch.nn.Module):
         kernel_pred = self.kernel(x_test,self.X_train,self.kernel_params)
         prediction = torch.matmul(kernel_pred,self.A_matrix)
         return prediction
+   
+
+def train_kernel(X_train, Y_train, kernel_name, nparameters, regu_lambda, lr = 0.1, verbose= False):
     
+    model = KernelFlows(kernel_name,nparameters= nparameters, regu_lambda=regu_lambda)
+    optimizer = torch.optim.SGD(model.parameters(), lr = lr)
+
+    model.set_training_data(torch.Tensor(X_train).double(),torch.Tensor(Y_train).double())
+
+    for i in tqdm.tqdm(range(1000)):
+        optimizer.zero_grad()
+        rho = model.forward()
+        if rho>=0 and rho<=1:
+            rho.backward()
+            optimizer.step()
+            if verbose:
+                print(rho)
+            
+    return model
