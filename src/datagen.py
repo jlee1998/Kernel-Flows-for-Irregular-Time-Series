@@ -39,6 +39,20 @@ def prepare_data(data_x,delay, normalize):
     Y=Y/normalize
     return X, Y
 
+def prepare_data_fast(data_x, delay, normalize, irregular_delays = None):
+    data = data_x.T / normalize
+    Y = data[delay:]
+
+    if irregular_delays is not None:
+        data = np.concatenate((data,irregular_delays[...,None]),-1)
+    
+    X = np.zeros((data.shape[0]-delay,delay*data.shape[1]))
+
+    for i in range(X.shape[0]):
+        X[i] = data[i:(i+delay)].reshape(-1)
+    
+    return X, Y
+
 def prepare_irregular_data(data_x,delay, normalize, delays):
 
     assert delay==1 # This is currrently validated for delay 1 only. Extra stuff required to generalize.
@@ -46,8 +60,8 @@ def prepare_irregular_data(data_x,delay, normalize, delays):
     lenX=data_x.shape[1]
     num_modes = data_x.shape[0]
     
-    X=np.zeros((1+lenX-2*delay,delay*num_modes+1))
-    Y=np.zeros((1+lenX-2*delay,delay*num_modes+1))
+    X=np.zeros((1+lenX-2*delay,delay*num_modes))
+    Y=np.zeros((1+lenX-2*delay,delay*num_modes))
     for mode in range(num_modes):
         for i in range(1+lenX-2*delay):
             X[i,(mode*delay):(mode*delay+delay)]=data_x[mode,i:(i+delay)]
