@@ -69,7 +69,7 @@ def kernel_anl3(matrix_1, matrix_2, parameters):
     sigma_0 = parameters[i+1]
     alpha_1 = parameters[i+2]
     sigma_1 = parameters[i+3]
-    K =  K+ (parameters[i+4])**2 *alpha_0*torch.maximum(torch.zeros(1), 1-matrix/(sigma_0))+ alpha_1 * torch.exp(-matrix/ (2* sigma_1**2))
+    K =  K+ (parameters[i+4])**2 *alpha_0*torch.maximum(torch.zeros(1,device = parameters.device), 1-matrix/(sigma_0))+ alpha_1 * torch.exp(-matrix/ (2* sigma_1**2))
     i=i+5
     
     p = parameters[i]
