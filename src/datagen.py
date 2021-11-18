@@ -22,6 +22,20 @@ def Henon(T, dt, N_sims,a,b):
         sims[:, i] = np.array([1-a*sims[:,i-1,0]**2+sims[:,i-1,1],b*sims[:,i-1,0]]).T
     return sims.astype(np.float32)
 
+def Lorenz(T, dt, N_sims,s,r,b):
+    N_t  = int(T//dt)
+    sims = np.zeros((N_sims, N_t, 3))
+    for sim in range(N_sims):
+        sims[sim,0,0] = 0.
+        sims[sim,0,1] = 1.
+        sims[sim,0,2] = 1.05
+        for i in range(1,N_t):
+            sims[sim, i, 0] = sims[sim,i-1,0] + dt*(s*(sims[sim,i-1,1]-sims[sim,i-1,0]))
+            sims[sim, i, 1] = sims[sim,i-1,1] + dt*(r*(sims[sim,i-1,0])-sims[sim,i-1,1] - (sims[sim,i-1,0]*sims[sim,i-1,2]))
+            sims[sim, i, 2] = sims[sim,i-1,2] + dt*( -b*(sims[sim,i-1,2]) + (sims[sim,i-1,0]*sims[sim,i-1,1]))
+
+    return sims.astype(np.float32)
+
 def prepare_data(data_x,delay, normalize):
     lenX=data_x.shape[1]
     num_modes = data_x.shape[0]
@@ -42,7 +56,8 @@ def prepare_data(data_x,delay, normalize):
 def prepare_data_fast(data_x, delay, normalize, irregular_delays = None):
     data = data_x.T / normalize
     Y = data[delay:]
-
+    
+    #irregular_delays_norm = (irregular_delays-irregular_delays.mean()) / irregular_delays.std()
     if irregular_delays is not None:
         data = np.concatenate((data,irregular_delays[...,None]),-1)
     
